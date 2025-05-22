@@ -16,4 +16,3 @@ export function hexToRgb(hex) {
     const b = parseInt(hex.substring(4, 6), 16) / 255;
     return [r, g, b];
 }
-//# sourceMappingURL=lib.js.map

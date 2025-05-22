@@ -1,20 +1,19 @@
-{
-  "id": "module",
-  "title": "New Module",
-  "description": "",
+{  "id": "pixel-perfect",
+  "title": "Pixel Perfect",
+  "description": "A module that enhances pixel art rendering in Foundry VTT, allowing for scaling, skewing, and rotating pixel art without common artifacts while maintaining sharpness.",
   "version": "#{VERSION}#",
   "library": "false",
   "manifestPlusVersion": "1.2.0",
   "compatibility": {
-    "minimum": 10,
-    "verified": 10,
-    "maximum": 11
+    "minimum": 11,
+    "verified": 12,
+    "maximum": 12
   },
   "authors": [
     {
-      "name": "The League of Extraordinary FVTT Developers",
-      "url": "https://github.com/League-of-Foundry-Developers",
-      "discord": "discordID#0001"
+      "name": "emily3k",
+      "url": "https://github.com/emilyy3k",
+      "discord": "emily3k"
     }
   ],
   "relationships": {
@@ -22,13 +21,9 @@
     "requires": []
   },
   "esmodules": [
-    "scripts/module.js"
-  ],
-  "scripts": [
+    "scripts/module.js",
+    "scripts/PixelArtFilter.js",
     "scripts/lib/lib.js"
-  ],
-  "styles": [
-    "styles/module.css"
   ],
   "languages": [
     {

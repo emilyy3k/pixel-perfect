@@ -1,0 +1,17 @@
+{
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "child_process": "^1.0.2",
+    "chokidar-cli": "^3.0.0",
+    "fvtt-types": "npm:@league-of-foundry-developers/foundry-vtt-types@^13.340.1",
+    "gulp": "^5.0.0",
+    "gulp-cli": "^3.0.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "inject-shaders": "node tools/inject-shaders.js",
+    "dev:watch": "gulp",
+    "build": "npm run inject-shaders && tsc"
+  }
+}
