@@ -7,11 +7,13 @@ Pixel Perfect enhances pixel art rendering in Foundry VTT, allowing for scaling,
 No longer do we have to choose between a blurry mess or crunchy jittery pixels! Pixel Perfect applies a filter to your tokens and tiles to bring out the pixel art goodness. Mobile Compatible! Works with animated sprites! 
 
 ## Examples
-Foundry's default scaling method looks good at a distance, but leaves your art blurry when close up.
+*(Below Token Art by [Retrograde Minis](https://retrogrademinis.com/))*  
+
+Foundry's default scaling method looks good at a distance, but leaves your art blurry when close up.  
 ![PIXEL PERFECT ZOOMED IN](https://github.com/user-attachments/assets/6b61b13c-4c90-464e-a519-695d02a1c11d)
-The other common method, Nearest Neighbor filtering, looks good close up, but at a distance leaves pixels looking crunchy, and will produce temporal artifacts leading to high levels of pixel jitter in motion.
+The other common method, Nearest Neighbor filtering, looks good close up, but at a distance leaves pixels looking crunchy, and will produce temporal artifacts leading to high levels of pixel jitter in motion.  
 ![PIXEL PERFECT ZOOMED OUT](https://github.com/user-attachments/assets/3d78d793-3a25-493f-91fc-7da20f2ee7a7)
-Pixel Perfect gives you the best of both worlds! Sharp art up close, smooth art from a distance, and ultra temporal stability!
+Pixel Perfect gives you the best of both worlds! Sharp art up close, smooth art from a distance, and ultra temporal stability!  
 
 ## Technical details
 Pixel Perfect applies a PIXI.Filter to all tokens and tiles in the scene, to re-sample the original texture using a glsl shader based off of [t3ssel8r's pixel art scaling shader for unity](https://www.youtube.com/watch?v=d6tp43wZqps). As we're applying a filter to a lot of objects, this could come with some level of performance drop. I haven't managed to profile exactly what kind of performance hit this might entail. However, if you want your pixel art to shine, there's no substitute.  
