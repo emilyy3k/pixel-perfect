@@ -2,7 +2,7 @@
 
 # Pixel Perfect - Pixel Art Scaling
 
-No longer do we have to choose between a blurry mess or crunchy jittery pixels! Pixel Perfect applies a filter to your tokens and tiles to bring out the pixel art goodness. 
+No longer do we have to choose between a blurry mess or crunchy jittery pixels! Pixel Perfect applies a filter to your tokens and tiles to bring out the pixel art goodness. Mobile Compatible! Works with animated sprites!
 
 ## Examples
 
