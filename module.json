@@ -25,13 +25,6 @@
     "scripts/PixelArtFilter.js",
     "scripts/lib/lib.js"
   ],
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "languages/en.json"
-    }
-  ],
   "url": "#{URL}#",
   "manifest": "#{MANIFEST}#",
   "download": "#{DOWNLOAD}#",
