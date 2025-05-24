@@ -30,9 +30,11 @@ Based on my limited knowledge of foundry, using a filter seemed like the best wa
 ## Known Module/System Incompatibilities
 - None as of yet! If you find any, let us know!
 
-## Future Updates
+## Future Update Plans
 - v13 Compatibility
 - Enable or Disable Pixel Perfect for Tiles or Tokens, rather than it just being enabled on both at all times
 - Per-Map/Scene enabling or disabling of Pixel Perfect for Tiles or Tokens
 - Per-object configuration of Pixel Perfect
 - Pixel Perfect for foreground and background images
+- A Sequencer integration to allow using the filter on sequencer effects
+- Feature to make character sheet images pixelated (may not be 'Pixel Perfect' using the filter, but should be less blur. Will need to be integrated per system. Probably Lancer first.)
