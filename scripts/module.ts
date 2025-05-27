@@ -151,7 +151,7 @@ Hooks.on('canvasReady', async () => {
   // Apply filter to background & foreground
   //applyFilterToEnvironment();
   
-  // Apply filter when a token refreshes
+  // Apply filter when a token refreshes 
   Hooks.on('refreshToken', applyFilterToPlaceable);
   Hooks.on('drawToken', applyFilterToPlaceable);
   Hooks.on('deleteToken', deleteFilterInstance);
