@@ -173,12 +173,6 @@ Hooks.on('canvasReady', async () => {
     }
   }
   
-  // Clean up when a token is deleted
-  Hooks.on('deleteToken', deleteFilterInstance);
-
-  // Clean up when a tile is deleted
-  Hooks.on('deleteTile', deleteFilterInstance);
-  
   // Cleanup on canvas tear down
   Hooks.on('canvasTearDown', () => {
     console.log("pixel-perfect: Canvas tear down, cleaning up filters.");
