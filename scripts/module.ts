@@ -53,6 +53,7 @@ Hooks.on('canvasReady', async () => {
     }
 
     // Always update the filter's sprite/texture reference
+    // caching etc. is handled by the function itself
     pixelFilter.updatePlaceableData(placeable);
 
     // if filters is null, initialize it as an empty array
