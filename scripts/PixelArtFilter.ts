@@ -71,7 +71,7 @@ export class PixelPerfectFilter extends PIXI.Filter {
    */
   updateSpriteData(spriteMesh: PrimarySpriteMesh): void {
     if (!spriteMesh.texture) return;
-    let tex = spriteMesh.texture
+    let tex = spriteMesh.texture;
     //console.log("pixel-perfect: Texture from sprite mesh", tex);
     if (!tex.valid) {
       console.warn(`pixel-perfect: Texture is not valid for sprite mesh ${spriteMesh}, skipping filter application.`);
