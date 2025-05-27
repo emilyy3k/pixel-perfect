@@ -157,10 +157,17 @@ export class PixelPerfectFilter extends PIXI.Filter {
       console.warn(`pixel-perfect: Texture is not valid for sprite mesh ${spriteMesh}, skipping filter application.`);
       return;
     }
-    this.originalTexture = tex;
-    this.uniforms.uOriginalTexture = this.originalTexture;
 
-    spriteMesh.roundPixels = true;
+    this.originalTexture = tex;
+    
+    // If the texture object has changed, update the uniforms
+    if (this.uniforms.uOriginalTexture !== this.originalTexture) {
+      this.uniforms.uOriginalTexture = this.originalTexture;
+    }
+
+    if (!spriteMesh.roundPixels) {
+      spriteMesh.roundPixels = true;
+    }
     this.targetSprite = spriteMesh;
   }
 
@@ -186,18 +193,30 @@ export class PixelPerfectFilter extends PIXI.Filter {
       return;
     }
     this.updateSpriteData(spriteMesh);
+
+    const placeableAlpha = placeable.document?.alpha || 1.0;
     
-    // Update the alpha uniform, from the placeable document
-    this.uniforms.uSpriteAlpha = placeable.document?.alpha;
+    // If the sprite alpha has changed, update the uniform
+    if (this.uniforms.uSpriteAlpha !== placeableAlpha) {
+      // Update the alpha uniform, from the placeable document
+      this.uniforms.uSpriteAlpha = placeableAlpha;
+    }
 
 
+    let newTint = null;
+    // update the tint color uniform, from the placeable document. default to white if not set
+    // Foundry v12 uses a different format for tint colors
     if (game.release && parseFloat(game.release.version) >= 12) {
-      // update the tint color uniform, from the placeable document. default to white if not set
-      this.uniforms.uSpriteTint = placeable.document?.texture?.tint?.rgb || [1, 1, 1];
+      newTint = placeable.document?.texture?.tint?.rgb || [1, 1, 1];
     } else {
       const tintHex = placeable.document?.texture?.tint || '#ffffff';
       // @ts-ignore
-      this.uniforms.uSpriteTint = hexToRgb(tintHex);
+      newTint = hexToRgb(tintHex);
+    }
+
+    // If the tint color has changed, update the uniform
+    if (newTint !== null && this.uniforms.uSpriteTint !== newTint) {
+      this.uniforms.uSpriteTint = newTint;
     }
   }
 
@@ -218,19 +237,17 @@ export class PixelPerfectFilter extends PIXI.Filter {
   apply(filterManager: PIXI.FilterSystem, input: PIXI.RenderTexture, output: PIXI.RenderTexture, clear: PIXI.CLEAR_MODES): void {
     const texture = this.originalTexture;
 
-    if (texture.valid) {
-      if (!texture.uvMatrix) texture.uvMatrix = new PIXI.TextureMatrix(texture, 0.0);
-      texture.uvMatrix.update();
+    if (!texture.uvMatrix) texture.uvMatrix = new PIXI.TextureMatrix(texture, 0.0);
+    texture.uvMatrix.update();
 
+    if (this.uniforms.uOriginalTexture !== texture) {
       this.uniforms.uOriginalTexture = texture;
-      this.uniforms.uOriginalUVMatrix = filterManager
-        .calculateSpriteMatrix(this.originalUVMatrix, this.targetSprite as any)
-        .prepend(texture.uvMatrix.mapCoord);
-      this.uniforms.inputClampTarget = texture.uvMatrix.uClampFrame;
-    } else {
-      console.warn("pixel-perfect: Texture is not valid, skipping filter application.");
-      return;
     }
+    
+    this.uniforms.uOriginalUVMatrix = filterManager
+      .calculateSpriteMatrix(this.originalUVMatrix, this.targetSprite as any)
+      .prepend(texture.uvMatrix.mapCoord);
+    this.uniforms.inputClampTarget = texture.uvMatrix.uClampFrame;
 
     super.apply(filterManager, input, output, clear);
   }
