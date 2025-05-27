@@ -150,8 +150,8 @@ export class PixelPerfectFilter extends PIXI.Filter {
    * @returns {void} - Returns early if the sprite mesh doesn't have a valid texture resource
    */
   updateSpriteData(spriteMesh: PrimarySpriteMesh): void {
-    if (!spriteMesh.texture?.baseTexture?.resource) return;
-    let tex = PIXI.Texture.from(spriteMesh.texture.baseTexture.resource as unknown as PIXI.TextureSource);
+    if (!spriteMesh.texture) return;
+    let tex = spriteMesh.texture
     //console.log("pixel-perfect: Texture from sprite mesh", tex);
     if (!tex.valid) {
       console.warn(`pixel-perfect: Texture is not valid for sprite mesh ${spriteMesh}, skipping filter application.`);
