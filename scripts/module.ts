@@ -55,12 +55,16 @@ Hooks.on('canvasReady', async () => {
     // Always update the filter's sprite/texture reference
     pixelFilter.updatePlaceableData(placeable);
 
+    // if filters is null, initialize it as an empty array
+    if (!targetObj.filters) targetObj.filters = [];
+
     // Add our filter if it's not already there
     const hasFilter = targetObj.filters?.some(f => f === pixelFilter) || false;
     if (!hasFilter) {
       console.log(`pixel-perfect: Adding filter to placeable sprite ${placeable.id}`);
-      if (!targetObj.filters) targetObj.filters = [];
-      targetObj.filters.push(pixelFilter);
+      
+      // Ensure the filter is at the start of the filters array
+      targetObj.filters.unshift(pixelFilter);
       console.log(`pixel-perfect: Filter added, total filters: ${targetObj.filters.length}`);
       if (placeable.texture?.baseTexture) {
         // using linear to avoid jittering. end result will still be sharp.
@@ -68,6 +72,15 @@ Hooks.on('canvasReady', async () => {
         if (!placeable.texture.baseTexture.valid) {
           placeable.texture.baseTexture.update();
         }
+      }
+    } else {
+      // check if the filter is applied but not the first in the array
+      const filterIndex = targetObj.filters.indexOf(pixelFilter);
+      if (filterIndex > 0) {
+        console.log(`pixel-perfect: Moving filter to front for placeable ${placeable.id}`);
+        // Move the filter to the front of the array
+        targetObj.filters.splice(filterIndex, 1);
+        targetObj.filters.unshift(pixelFilter);
       }
     }
     //targetObj.cacheAsBitmap = false;
