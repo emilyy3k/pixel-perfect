@@ -138,7 +138,7 @@ export class PixelPerfectFilter extends PIXI.Filter {
      * It also ensures the sprite mesh has rounded pixels for better pixel-perfect rendering.
      *
      * @param spriteMesh - The primary sprite mesh to extract texture data from and apply pixel-perfect settings to
-     * @returns void - Returns early if the sprite mesh doesn't have a valid texture resource
+     * @returns {void} - Returns early if the sprite mesh doesn't have a valid texture resource
      */
     updateSpriteData(spriteMesh) {
         if (!spriteMesh.texture?.baseTexture?.resource)
@@ -200,7 +200,7 @@ export class PixelPerfectFilter extends PIXI.Filter {
      * @param output - The output render texture where the filtered result will be stored
      * @param clear - The clear mode to use when applying the filter
      *
-     * @returns void - The method returns early without applying the filter if the original texture is invalid
+     * @returns {void} - The method returns early without applying the filter if the original texture is invalid
      */
     apply(filterManager, input, output, clear) {
         const texture = this.originalTexture;

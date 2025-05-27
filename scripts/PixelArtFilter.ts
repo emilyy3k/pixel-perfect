@@ -147,9 +147,9 @@ export class PixelPerfectFilter extends PIXI.Filter {
    * It also ensures the sprite mesh has rounded pixels for better pixel-perfect rendering.
    * 
    * @param spriteMesh - The primary sprite mesh to extract texture data from and apply pixel-perfect settings to
-   * @returns void - Returns early if the sprite mesh doesn't have a valid texture resource
+   * @returns {void} - Returns early if the sprite mesh doesn't have a valid texture resource
    */
-  updateSpriteData(spriteMesh: PrimarySpriteMesh) {
+  updateSpriteData(spriteMesh: PrimarySpriteMesh): void {
     if (!spriteMesh.texture?.baseTexture?.resource) return;
     let tex = PIXI.Texture.from(spriteMesh.texture.baseTexture.resource as unknown as PIXI.TextureSource);
     //console.log("pixel-perfect: Texture from sprite mesh", tex);
@@ -179,7 +179,7 @@ export class PixelPerfectFilter extends PIXI.Filter {
    * - Will skip application and log a warning if no sprite mesh is found
    * - Handles different tint color formats between Foundry VTT versions
    */
-  updatePlaceableData(placeable: Token | Tile) {
+  updatePlaceableData(placeable: Token | Tile): void {
     let spriteMesh = placeable.mesh;
     if (!spriteMesh) {
       console.warn(`pixel-perfect: No sprite mesh found for placeable ${placeable.id}, skipping filter application.`);
@@ -213,9 +213,9 @@ export class PixelPerfectFilter extends PIXI.Filter {
    * @param output - The output render texture where the filtered result will be stored
    * @param clear - The clear mode to use when applying the filter
    * 
-   * @returns void - The method returns early without applying the filter if the original texture is invalid
+   * @returns {void} - The method returns early without applying the filter if the original texture is invalid
    */
-  apply(filterManager: PIXI.FilterSystem, input: PIXI.RenderTexture, output: PIXI.RenderTexture, clear: PIXI.CLEAR_MODES) {
+  apply(filterManager: PIXI.FilterSystem, input: PIXI.RenderTexture, output: PIXI.RenderTexture, clear: PIXI.CLEAR_MODES): void {
     const texture = this.originalTexture;
 
     if (texture.valid) {
