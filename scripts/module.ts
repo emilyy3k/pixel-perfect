@@ -153,12 +153,12 @@ Hooks.on('canvasReady', async () => {
   
   // Apply filter when a token refreshes
   Hooks.on('refreshToken', applyFilterToPlaceable);
-  Hooks.on('updateToken', applyFilterToPlaceable);
-  Hooks.on('createToken', applyFilterToPlaceable);
+  Hooks.on('drawToken', applyFilterToPlaceable);
+  Hooks.on('deleteToken', deleteFilterInstance);
 
   Hooks.on('refreshTile', applyFilterToPlaceable);
-  Hooks.on('updateTile', applyFilterToPlaceable);
-  Hooks.on('createTile', applyFilterToPlaceable);
+  Hooks.on('drawTile', applyFilterToPlaceable);
+  Hooks.on('deleteTile', deleteFilterInstance);
 
   // Apply filters to all existing tokens
   if (canvas.tokens) {
@@ -185,11 +185,13 @@ Hooks.on('canvasReady', async () => {
     
     // Remove our hooks - be specific to avoid removing others' hooks
     Hooks.off('refreshToken', applyFilterToPlaceable);
-    Hooks.off('refreshTile', applyFilterToPlaceable);
-    Hooks.off('updateToken', applyFilterToPlaceable);
-    Hooks.off('updateTile', applyFilterToPlaceable);
+    Hooks.off('drawToken', applyFilterToPlaceable);
     Hooks.off('deleteToken', deleteFilterInstance);
+
+    Hooks.off('refreshTile', applyFilterToPlaceable);
+    Hooks.off('drawTile', applyFilterToPlaceable);
     Hooks.off('deleteTile', deleteFilterInstance);
+
     // look through all placeables in the pixelFilters map and remove the filter
     for (const [id, filter] of pixelFilters) {
       //let spriteMesh = null;
