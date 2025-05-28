@@ -19,7 +19,7 @@ function compileTS() {
   return tsProject
     .src()
     .pipe(tsProject()) // Compile TypeScript files
-    .js.pipe(sourcemaps.init({ loadMaps: true })) // Load existing sourcemaps
+    .js.pipe(sourcemaps.init()) // Load existing sourcemaps
     .pipe(shaderInject()) // Inject shaders into PixelArtFilter.js
     .pipe(uglify()) // minify the JavaScript
     .pipe(sourcemaps.write(".")) // Write sourcemaps to the same directory
@@ -30,7 +30,7 @@ function compileTS() {
 function serve(done) {
   browserSync.init({
     proxy: { target: "http://localhost:30001", ws: true }, // Change to your Foundry server port
-    //open: "local",
+    open: "false", // don't open a new tab, we will view tab via debugger
     notify: false,
     reloadDelay: 200,
   });

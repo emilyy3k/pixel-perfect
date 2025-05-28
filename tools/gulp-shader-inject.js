@@ -10,6 +10,25 @@ function escapeContent(content) {
   return content.replace(/\\/g, "\\\\").replace(/`/g, "\\`");
 }
 
+function stripComments(content) {
+  let output = content || "";
+  // Split content into an array of lines
+  const lines = content.split("\r\n");
+  // Remove lines that start with "//" or empty lines
+  const filteredLines = lines.filter((line) => {
+    return !line.trim().startsWith("//");
+  });
+  // Remove any remaining // comments at ends of lines
+  const filteredLinesAgain = filteredLines.map((line) => {
+    return line.trim().split("//")[0].trim();
+  });
+
+  // Join the filtered lines back into a single string
+  output = filteredLinesAgain.join("\\r\\\n");
+
+  return output;
+}
+
 module.exports = function (options = {}) {
   const fragFile =
     options.fragFile ||
@@ -44,12 +63,12 @@ module.exports = function (options = {}) {
       // Looking for patterns like: var fragmentShader = "..."; or let fragmentShader = `...`;
       jsContent = jsContent.replace(
         /(var|let|const)\s+fragmentShader\s*=\s*["`][\s\S]*?["`];?/g,
-        `$1 fragmentShader = \`${fragContent}\`;`
+        `$1 fragmentShader = \`${stripComments(fragContent)}\`;`
       );
 
       jsContent = jsContent.replace(
         /(var|let|const)\s+vertexShader\s*=\s*["`][\s\S]*?["`];?/g,
-        `$1 vertexShader = \`${vertContent}\`;`
+        `$1 vertexShader = \`${stripComments(vertContent)}\`;`
       );
 
       // Update the file contents
