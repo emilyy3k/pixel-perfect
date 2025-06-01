@@ -24,5 +24,6 @@ vec2 filterTextureCoord(void) {
 void main(void) {
     gl_Position = filterVertexPosition();
     vTextureCoord = filterTextureCoord();
+
     vOriginalTextureCoord = (uOriginalUVMatrix * vec3(vTextureCoord, 1.0f)).xy;
 }

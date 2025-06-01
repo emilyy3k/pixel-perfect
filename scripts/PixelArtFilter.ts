@@ -35,6 +35,7 @@ export class PixelPerfectFilter extends PIXI.Filter {
   originalUVMatrix!: PIXI.Matrix;
   targetSprite!: SpriteMesh;
   originalTexture!: PIXI.Texture;
+  lastWorldID: number = -1;
 
   constructor(filterTarget: Token | Tile) {
     const originalUVMatrix = new PIXI.Matrix();
@@ -79,16 +80,25 @@ export class PixelPerfectFilter extends PIXI.Filter {
     }
 
     this.originalTexture = tex;
+
+    // If the texture doesn't have a UV matrix, create one
+    if (!tex.uvMatrix) {
+      tex.uvMatrix = new PIXI.TextureMatrix(tex, 0.0);
+      tex.uvMatrix.update();
+    }
     
     // If the texture object has changed, update the uniforms
     if (this.uniforms.uOriginalTexture !== this.originalTexture) {
       this.uniforms.uOriginalTexture = this.originalTexture;
+      this.uniforms.uTexSize = [tex.width, tex.height];
     }
 
     if (!spriteMesh.roundPixels) {
       spriteMesh.roundPixels = true;
     }
-    this.targetSprite = spriteMesh;
+    if (this.targetSprite !== spriteMesh) {
+      this.targetSprite = spriteMesh;
+    }
   }
 
   /**
@@ -157,16 +167,19 @@ export class PixelPerfectFilter extends PIXI.Filter {
   apply(filterManager: PIXI.FilterSystem, input: PIXI.RenderTexture, output: PIXI.RenderTexture, clear: PIXI.CLEAR_MODES): void {
     const texture = this.originalTexture;
 
-    if (!texture.uvMatrix) texture.uvMatrix = new PIXI.TextureMatrix(texture, 0.0);
-    texture.uvMatrix.update();
-
     if (this.uniforms.uOriginalTexture !== texture) {
       this.uniforms.uOriginalTexture = texture;
     }
     
-    this.uniforms.uOriginalUVMatrix = filterManager
-      .calculateSpriteMatrix(this.originalUVMatrix, this.targetSprite as any)
-      .prepend(texture.uvMatrix.mapCoord);
+    // prevent recalculating the UV matrix if the transform hasn't changed
+    if (this.targetSprite.transform._worldID !== this.lastWorldID) {
+      // Update the original UV matrix based on the target sprite's current transform
+      this.uniforms.uOriginalUVMatrix = filterManager
+        .calculateSpriteMatrix(this.originalUVMatrix, this.targetSprite as any)
+        .prepend(texture.uvMatrix.mapCoord);
+      this.lastWorldID = this.targetSprite.transform._worldID;
+    }
+
     this.uniforms.inputClampTarget = texture.uvMatrix.uClampFrame;
 
     super.apply(filterManager, input, output, clear);
@@ -183,5 +196,7 @@ export class PixelPerfectFilter extends PIXI.Filter {
     this.originalTexture = undefined as any;
     this.targetSprite = undefined as any;
     this.originalUVMatrix = undefined as any;
+    this.lastWorldID = -1;
+    super.destroy();
   }
 }
